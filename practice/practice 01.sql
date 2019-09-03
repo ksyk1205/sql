@@ -31,9 +31,14 @@ select sum(case when gender = 'f' then 1 else 0 end) as 여직원,
 	   sum(case when gender = 'm' then 1 else 0 end) as 남직원
 from employees; 
 
-select (select count(gender) from employees group by gender having gender= 'f')as 여직원,
-		(select count(gender) from employees group by gender having gender= 'm')as 남직원;
+select (select count(*) from employees where gender= 'f')as 여직원,
+		(select count(*) from employees where gender='m')as 남직원;
 
+select (select count(gender) from employees group by(gender) having gender = 'f')as 여직원,
+		(select count(gender) from employees group by(gender) having gender = 'm')as 남직원;
+        
+select * from (select count(*)as 여직원 from employees where gender='f')as 여직원,
+				(select count(*) as 남직원 from employees where gender='m')as 남직원;
 -- 문제4
 -- 현재 근무하고 있는 직원 수는 몇 명입니까?
 select count(*)
@@ -61,7 +66,8 @@ order by length(dept_name) desc;
 -- 현재 급여가 120,000이상 받는 사원은 몇명이나 있습니까?
 select count(*)
 from salaries
-where salary>=120000;
+where salary>=120000
+and to_date >=now();
 
 -- 문제9
 -- 어떤 직책들이 있나요? 중복없이 이름이 긴 순서대로 출력해 보세요.
