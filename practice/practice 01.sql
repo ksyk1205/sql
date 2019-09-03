@@ -26,6 +26,14 @@ select count(*)
 from employees
 where gender ='m';
 
+-- 여직원과 남직원은 각 각 몇 명이나 있나요??
+select sum(case when gender = 'f' then 1 else 0 end) as 여직원,
+	   sum(case when gender = 'm' then 1 else 0 end) as 남직원
+from employees; 
+
+select (select count(gender) from employees group by gender having gender= 'f')as 여직원,
+		(select count(gender) from employees group by gender having gender= 'm')as 남직원;
+
 -- 문제4
 -- 현재 근무하고 있는 직원 수는 몇 명입니까?
 select count(*)
